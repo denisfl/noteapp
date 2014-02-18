@@ -1,11 +1,6 @@
 lang: ru
-title: Middleman Site
-description: description here.
-keywords:
-  - keyword1
-  - keyword2
-  - keyword3
-author: author name
+title: Note App
+author: Denis FL
 
 # Google Analytics 
 # Add code or leave the field blank

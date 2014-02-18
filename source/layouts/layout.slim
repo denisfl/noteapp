@@ -11,8 +11,6 @@ html lang="#{data.site.lang}"
   head
     meta charset="utf-8"            
     title #{current_page.data.title} &mdash; #{data.site.title}
-    meta name="description" content="#{yield_content(:description).blank? ? data.site.description : yield_content(:description)}"
-    meta name="keywords" content="#{yield_content(:keywords).blank? ? data.site.keywords.join(', ') : yield_content(:keywords).join(', ')}"
 
     meta name="viewport" content="width=device-width"
     meta name="apple-mobile-web-app-capable" content="yes"
