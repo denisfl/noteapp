@@ -47,7 +47,8 @@ $(function () {
           setInterval(function() {                
             var noteID = App.$noteTextarea.attr('data-note');
 
-            if (App.$noteTextarea.val() != '') {              
+            if (App.$noteTextarea.val() != '') {  
+              document.title = App.$noteTextarea.val().split('\n')[0];            
               localStorage.setItem(noteID, App.$noteTextarea.val());
             } 
 
@@ -56,7 +57,6 @@ $(function () {
         // Удаление заметки по клику на кнопку "Удалить"
         removeNote: function() {
           $('.js__remove-note').on('click', function() {
-            // var noteID = App.$noteTextarea.attr('data-note');
             var link = $(this).parent(),
                 noteID = link.attr('id');
 
@@ -84,7 +84,7 @@ $(function () {
               var noteKey = localStorage.key(i);
               // Выводим только непустые заметки
               if ( (noteKey != null) && localStorage.getItem(noteKey) != '' ) {
-                App.$notesList.append('<li><a class="nav__link" href="#" id="' + noteKey + '">'  + localStorage.getItem(noteKey) + '<button class="remove-note js__remove-note">&times;</button></a></li>');                
+                App.$notesList.append('<li><a class="nav__link" href="#" id="' + noteKey + '">'  + localStorage.getItem(noteKey).split('\n')[0] + '<button class="remove-note js__remove-note">&times;</button></a></li>');                
               }              
             }
           }
@@ -108,6 +108,8 @@ $(function () {
             });
           });
         },
+
+
         ofCanvas: function() {
           var ofCanvasBtn = $('.js__of-canvas-toggle'),
               ofCanvasExitBtn = $('.js__exit-off-canvas'),
