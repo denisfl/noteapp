@@ -50,9 +50,12 @@ $(function () {
             if (App.$noteTextarea.val() != '') {  
               document.title = App.$noteTextarea.val().split('\n')[0];            
               localStorage.setItem(noteID, App.$noteTextarea.val());
-            } 
+            } else {
+              document.title = "*";            
+            }
 
-          }, 1000);          
+
+          }, 500);          
         },
         // Удаление заметки по клику на кнопку "Удалить"
         removeNote: function() {
