@@ -1,0 +1,14 @@
+lang: ru
+title: Middleman Site
+description: description here.
+keywords:
+  - keyword1
+  - keyword2
+  - keyword3
+author: author name
+
+# Google Analytics 
+# Add code or leave the field blank
+# Example:
+# google_analytics_id: UA-30635535-2
+google_analytics_id: 

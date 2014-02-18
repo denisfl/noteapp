@@ -1,0 +1,56 @@
+$page-sidebar-color: $white;
+$page-sidebar-navlink-color: #cacaca;
+$page-sidebar-navlink-color-hover: $white;
+
+
+
+.nav__list {
+  margin: 25px 0 0 0;
+  list-style-type: none;
+}
+  .nav__item {
+    
+  }
+  .nav__item--active {
+    background-color: #333;
+  }
+    .nav__link {
+      position: relative;
+      display: block;
+      padding: 10px 34px 10px 30px;
+      @include text-overflow;
+      color: $page-sidebar-navlink-color;
+      text-decoration: none;
+      transition: color .2s ease-out;
+      &:hover {
+        color: $page-sidebar-navlink-color-hover;
+        text-decoration: none;
+      }
+      .fa {width: 16px;}
+    }
+      // .nav__link-text {
+      //   display: inline-block;
+      //   margin-left: 12px;
+      // }
+
+
+.btn__add-new-note {
+  display: block;
+  margin: 10px 0 0 30px;
+  padding: 14px 44px;
+
+  background-color: #333;
+  border: 0;
+  color: $page-sidebar-navlink-color;
+  transition: color .2s ease-out;  
+  
+  &:hover {color: $page-sidebar-navlink-color-hover;}
+}    
+
+.remove-note {
+  position: absolute;
+  right: 11px;
+  background-color: transparent;
+  border: none;
+  color: #cacaca;
+}
