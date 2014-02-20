@@ -1,75 +1,77 @@
-//= require jquery
+var App = (function () {
+  // 'use strict';
+  document.addEventListener('DOMContentLoaded', function(event) {  
 
-var App;
+    var  noteTextarea = document.getElementById('note__textarea'),
+         notesList = document.querySelector('.js__notes-list');
 
-$(function () {
-    'use strict';
-    App = {
-        init: function () {
-        	this.cacheElements();
-          this.onload();
-          this.addNewNote();
-          this.saveNote();
-          this.removeNote();  
-          this.getNoteItem();        
-          this.ofCanvas();
-        },
-        cacheElements: function () {
-          this.$noteTextarea = $('#note__textarea');
-          this.$notesList = $('.js__notes-list');
-        },
-        onload: function() {          
+    // App = {
+        return {
+          onload();
+          addNewNote();
+          saveNote();
+          removeNote();  
+          getNoteItem();        
+          ofCanvas();
+        };
+        // cacheElements: function () {
+        //   noteTextarea = document.getElementById('note__textarea');
+        //   notesList = document.querySelector('.js__notes-list');
+        // },
+        function onload() {          
           // TODO: Сделать проверку на поддерживаемость localStorage
-          App.clearEmptyNote();
-          App.getNotesList();
-          App.createNote();
-        },
+          this.clearEmptyNote();
+          this.getNotesList();
+          this.createNote();
+        };
         // Клик на кнопку "Новая заметка" вызавает функцию createNote
-        addNewNote: function() {
-          $('.js__add-new-note').on('click', function() {
-            App.createNote();
+        function addNewNote() {
+          document.querySelector('.js__add-new-note').addEventListener('click', function(event) {
+            createNote();
             // При создании новой заметки надо обновлять список записей в сайдбаре
             // но пока происходит просто добавление списка, а не обновление
-            // App.getNotesList();
-          });
-        },
+            // getNotesList();
+          }, false);
+        };
         // Создание новой заметки
-        createNote: function(){
+        function createNote(){
           var noteName = 'note__' + Math.floor(new Date());
 
-          App.$noteTextarea
-            .attr('data-note', noteName)
-            .val('');
+          noteTextarea.setAttribute('data-note', noteName);
+          noteTextarea.value = '';
           localStorage.setItem(noteName, '');
-        },
+        };
         // Сохрнение заметки
-        saveNote: function() {          
+        function saveNote() {          
           setInterval(function() {                
-            var noteID = App.$noteTextarea.attr('data-note');
+            var noteID = noteTextarea.getAttribute('data-note');
 
-            if (App.$noteTextarea.val() != '') {  
-              document.title = App.$noteTextarea.val().split('\n')[0];            
-              localStorage.setItem(noteID, App.$noteTextarea.val());
+            if (noteTextarea.value != '') {  
+              document.title = noteTextarea.value.split('\n')[0];            
+              localStorage.setItem(noteID, noteTextarea.value);
             } else {
               document.title = "*";            
             }
 
-
           }, 500);          
-        },
+        };
         // Удаление заметки по клику на кнопку "Удалить"
-        removeNote: function() {
-          $('.js__remove-note').on('click', function() {
-            var link = $(this).parent(),
-                noteID = link.attr('id');
+        function removeNote() {
+          var elArr = document.querySelectorAll('.js__remove-note');
+          for (var i = elArr.length - 1; i >= 0; i--) {
+            elArr[i].addEventListener('click', function(event) {           
+              var link = event.target.parentElement,
+                  noteID = link.getAttribute('id');
 
-            localStorage.removeItem(noteID);
-            link.remove();
-            App.createNote();
-          });
-        },
-        // TODO: тут небольшой баг: очистка происходит не сразу всех пустых, а постепенно, при каждом обновлении
-        clearEmptyNote: function() {
+              localStorage.removeItem(noteID);
+              link.remove();
+              createNote();
+            }, false);    
+              
+          };
+        };
+        // TODO: тут небольшой баг: очистка происходит не сразу всех пустых, а постепенно - при каждом обновлении
+        function clearEmptyNote() {
           for ( var i=0; i <= localStorage.length; i++ ) {
             var noteKey = localStorage.key(i);
 
@@ -78,58 +80,63 @@ $(function () {
             } 
 
           }
-        },
+        };
         // Формирование списка заметок в сайдбаре
-        getNotesList: function() {
+        function getNotesList() {
           // Проверяем есть ли хотя бы одна заметка
           if ( localStorage.length > 0 ) {
-             for ( var i=0; i <= localStorage.length; i++ ) {
+             // for ( var i=0; i <= localStorage.length; i++ ) {
+             for ( var i=localStorage.length - 1; i >= 0; i-- ) {
               var noteKey = localStorage.key(i);
               // Выводим только непустые заметки
               if ( (noteKey != null) && localStorage.getItem(noteKey) != '' ) {
-                App.$notesList.append('<li><a class="nav__link" href="#" id="' + noteKey + '">'  + localStorage.getItem(noteKey).split('\n')[0] + '<button class="remove-note js__remove-note">&times;</button></a></li>');                
+                var notesItem = '<li><a class="nav__link" href="#" id="' + noteKey + '">'  + localStorage.getItem(noteKey).split('\n')[0] + '<button class="remove-note js__remove-note">&times;</button></a></li>';
+                notesList.insertAdjacentHTML("beforeEnd", notesItem);
               }              
             }
           }
-        },
+        };
         // Отображение заметки в textarea по клику на соответствующей ссылке в сайдбаре
-        getNoteItem: function() {
-          var navLink = App.$notesList.children('li').find('.nav__link'),
+        function getNoteItem() {
+          var navLinkArr = document.querySelectorAll('.nav__link'),
               activeClass = 'nav__item--active';
 
-          navLink.each(function() {
-            $(this).on('click', function(e) {
-              var noteId = $(this).attr('id');
-              e.preventDefault();
+          for (var i = navLinkArr.length - 1; i >= 0; i--) {
+            navLinkArr[i].addEventListener('click', function(event) {
+              var noteId = event.target.getAttribute('id');
 
+              event.preventDefault();
 
-              navLink.parent().removeClass(activeClass);
-              $(this).parent().addClass(activeClass);
-              App.$noteTextarea
-                .attr('data-note', noteId)
-                .val( localStorage.getItem(noteId) );
-            });
-          });
-        },
+              // navLinkArr[i].parentElement.className = '';
+              // event.target.parentElement.className = activeClass;
 
-
-        ofCanvas: function() {
-          var ofCanvasBtn = $('.js__of-canvas-toggle'),
-              ofCanvasExitBtn = $('.js__exit-off-canvas'),
-              parentBlock = '.page__layout',
+              noteTextarea.setAttribute('data-note', noteId);
+              noteTextarea.value = localStorage.getItem(noteId);
+            }, false);
+          };
+        };
+        function ofCanvas() {
+          var ofCanvasBtn = document.querySelector('.js__of-canvas-toggle'),
+              ofCanvasExitBtn = document.querySelector('.js__exit-off-canvas'),
+              parentBlock = document.querySelector('.page__layout'),
               toggleClass = 'js__sidebar-active';
 
-          ofCanvasBtn.on('click', function(e) {
-            e.preventDefault();
-            $(this).closest(parentBlock).toggleClass(toggleClass);
-          });
+          ofCanvasBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            if ( parentBlock.hasAttribute('class') ) {
+              parentBlock.setAttribute('class', toggleClass);
+            } 
 
-          ofCanvasExitBtn.on('click', function(e) {
-            e.preventDefault();
-            $(this).closest(parentBlock).removeClass(toggleClass);
-          });
-        }
+          }, false);
 
-    };
-    App.init();
-});
+          ofCanvasExitBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            parentBlock.setAttribute('class', '');
+          }, false);
+
+        };
+
+  }, false);
+})();
+
