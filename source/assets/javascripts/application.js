@@ -6,7 +6,7 @@ $(function () {
     'use strict';
     App = {
         init: function () {
-        	this.cacheElements();
+          this.cacheElements();
           this.onload();
           this.addNewNote();
           this.saveNote();
@@ -53,8 +53,6 @@ $(function () {
             } else {
               document.title = "*";            
             }
-
-
           }, 500);          
         },
         // Удаление заметки по клику на кнопку "Удалить"
@@ -76,7 +74,6 @@ $(function () {
             if ( localStorage.getItem(noteKey) === '' ) {
               localStorage.removeItem(noteKey);
             } 
-
           }
         },
         // Формирование списка заметок в сайдбаре
@@ -101,8 +98,6 @@ $(function () {
             $(this).on('click', function(e) {
               var noteId = $(this).attr('id');
               e.preventDefault();
-
-
               navLink.parent().removeClass(activeClass);
               $(this).parent().addClass(activeClass);
               App.$noteTextarea
@@ -111,7 +106,6 @@ $(function () {
             });
           });
         },
-
 
         ofCanvas: function() {
           var ofCanvasBtn = $('.js__of-canvas-toggle'),
@@ -129,7 +123,6 @@ $(function () {
             $(this).closest(parentBlock).removeClass(toggleClass);
           });
         }
-
     };
     App.init();
 });
