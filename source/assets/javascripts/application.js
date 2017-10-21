@@ -42,7 +42,7 @@ $(function () {
             .val('');
           localStorage.setItem(noteName, '');
         },
-        // Сохрнение заметки
+        // Сохранение заметки
         saveNote: function() {          
           setInterval(function() {                
             var noteID = App.$noteTextarea.attr('data-note');
